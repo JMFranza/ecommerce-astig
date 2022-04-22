@@ -2,17 +2,6 @@ import Cookies from "cookies";
 
 const ObjectId = require("mongodb").ObjectId;
 
-// import dbConnect from "../../../config/dbConnect";
-// dbConnect();
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const logout = async (req, res) => {
   try {
     const cookies = new Cookies(req, res);

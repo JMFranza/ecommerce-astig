@@ -1,8 +1,9 @@
 const ObjectId = require("mongodb").ObjectId;
+import dbConnect from "../../../config/dbConnect";
+dbConnect();
 const Admin = require("../../../models/Admin");
 
 const login = async (req, res) => {
-  console.log(req);
   try {
     return res.status(200).json({ success: true, message: [] });
   } catch (err) {

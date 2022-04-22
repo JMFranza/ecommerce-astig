@@ -1,4 +1,6 @@
 const ObjectId = require("mongodb").ObjectId;
+import dbConnect from "../../../config/dbConnect";
+dbConnect();
 const User = require("../../../models/User");
 
 const login = async (req, res) => {

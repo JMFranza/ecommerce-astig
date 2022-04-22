@@ -11,12 +11,18 @@ module.exports = {
     };
     return paths; //<--this was missing previously
   },
-  // env: {
-  //   MONGODB_URI:
-  //     "mongodb+srv://movie_haus:123@cluster0.t14et.mongodb.net/hawkeye?retryWrites=true&w=majority",
-  //   DB_NAME: "hawkeye",
-  //   DEV_URL: "http://localhost:3000",
-  //   PROD_URL: "",
-  //   JWT_SECRET_KEY: "KEYKEY",
-  // },
+  env: {
+    MONGODB_URI:
+      "mongodb+srv://Angas:AngasPassword@cluster0.cnqnq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    DB_NAME: "hawkeye",
+    DEV_URL: "http://localhost:3000",
+    PROD_URL: "",
+    JWT_SECRET_KEY:
+      "KEYKEY9d7c5245015e6bed7d5813d7e4edf3f42c279e29e00d82b9KEYKEY",
+
+    NODEMAILER_SERVICE: "gmail",
+    NODEMAILER_EMAIL: "smfairviewcinema@gmail.com",
+    NODEMAILER_PASSWORD: "smfairview",
+    NODEMAILER_SUPER_ADMIN: "chaptersonlinelibrary404@gmail.com",
+  },
 };
