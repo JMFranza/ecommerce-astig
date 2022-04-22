@@ -71,9 +71,9 @@ const register = async (req, res) => {
     const mailOptions = {
       from: `verify your email from <${process.env.NODEMAILER_SERVICE}>`,
       to: email,
-      subject: "Bookie verification -verify your email",
+      subject: "Astig verification -verify your email",
       html: transTemplate({
-        role: "Student",
+        role: "User",
         message:
           "Thank you for registering on our site. You can order astig merchandise now if you verify your account by clicking the button below",
         name: full_name,
@@ -96,16 +96,16 @@ const register = async (req, res) => {
     });
     return res.status(200).json({ success: true, message: [] });
   } catch (err) {
-    let result = [];
     const errors = err.errors;
-    for (const key in errors) result.push(errors[key].properties.message);
-    if (result.length >= 1)
-      return res.status(200).json({ success: false, message: result });
-    if (err.name === "MongoServerError" && err.code === 11000) {
-      return res
-        .status(200)
-        .send({ succes: false, message: ["Email already exist!"] });
-    }
+    for (const key in errors)
+      return res.status(200).send({
+        succes: false,
+        message: errors[key].message,
+        error: errors[key].path,
+      });
+    return res
+      .status(200)
+      .send({ succes: false, message: "Email already exist!", error: "email" });
   }
 };
 

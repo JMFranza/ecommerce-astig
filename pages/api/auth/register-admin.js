@@ -73,9 +73,9 @@ const register = async (req, res) => {
     const mailOptions = {
       from: `verify your email from <${process.env.NODEMAILER_SERVICE}>`,
       to: email,
-      subject: "Bookie verification -verify your email",
+      subject: "Astig verification -verify your email",
       html: transTemplate({
-        role: "Student",
+        role: "Admin",
         message:
           "Thank you for registering on our site. Verify email below. \n Reminder: The main admin of this system must verify your email before you can access the sites admin page",
         name: full_name,
@@ -93,9 +93,9 @@ const register = async (req, res) => {
     var mailOptionsAdmin = {
       from: `Please Verify Email <${process.env.NODEMAILER_SERVICE}>`,
       to: process.env.NODEMAILER_SUPER_ADMIN,
-      subject: "Chapters verification -verify staff",
+      subject: "Astig verification -verify staff",
       html: transTemplate({
-        role: "Chapters main admin",
+        role: "Astig main admin",
         message: `Verify Librarian Staff Named : ${full_name}. With an email of Of ${email} \n location: ${postal_code} ${country}`,
         name: full_name,
         email: email,
@@ -110,8 +110,16 @@ const register = async (req, res) => {
 
     return res.status(200).json({ success: true, message: [] });
   } catch (err) {
-    console.log(`Error: ${err}`);
-    return res.status(401).json({ success: false, message: [] });
+    const errors = err.errors;
+    for (const key in errors)
+      return res.status(200).send({
+        succes: false,
+        message: errors[key].message,
+        error: errors[key].path,
+      });
+    return res
+      .status(200)
+      .send({ succes: false, message: "Email already exist!", error: "email" });
   }
 };
 
