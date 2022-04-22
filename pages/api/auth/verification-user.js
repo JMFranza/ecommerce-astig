@@ -26,8 +26,31 @@ export const config = {
 
 const validate_token = async (req, res) => {
   try {
-    const { token } = req.body;
-    return res.status(200).json({ sucess: true });
+    const { token } = req.query;
+
+    // Find email
+    const findUser = await User.findOne({ email_token: token });
+
+    // User email not found
+    if (!findUser)
+      return res.status(200).json({
+        success: false,
+        message: "Verification link does not exist",
+        error: "email",
+      });
+
+    // If Users' email verified
+    if (findUser.email_verified)
+      return res.status(200).json({
+        success: false,
+        message: "Email has already been verified",
+        error: "email verification",
+      });
+
+    findUser.email_verified = true;
+    findUser.email_token = "";
+    findUser.save();
+    res.status(200).json({ sucess: true });
   } catch (err) {
     return res
       .status(200)

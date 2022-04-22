@@ -26,10 +26,32 @@ export const config = {
 
 const validate_token = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token } = req.query;
+
+    // Find email
+    const findAdmin = await Admin.findOne({ email_token: token });
+    // Admin email not found
+    if (!findAdmin)
+      return res.status(200).json({
+        success: false,
+        message: "Verification link does not exist",
+        error: "email",
+      });
+
+    // If admin's email verified
+    if (findAdmin.email_verified)
+      return res.status(200).json({
+        success: false,
+        message: "Email has already been",
+        error: "email verification",
+      });
+
+    findAdmin.email_verified = true;
+    findAdmin.email_token = "";
+    findAdmin.save();
     res.status(200).json({ sucess: true });
   } catch (err) {
-    res.status(200).json({ sucess: false, message: "logout failed" });
+    res.status(200).json({ sucess: false, message: "Verification failed" });
   }
 };
 
