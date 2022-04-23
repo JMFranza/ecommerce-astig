@@ -13,10 +13,10 @@ const login = async (req, res) => {
   try {
     // Find email
     const { email, password } = req.body;
-    const findAdmin = await User.findOne({ email: email });
+    const findUser = await User.findOne({ email: email });
 
-    // Admin email not found
-    if (!findAdmin)
+    // User email not found
+    if (!findUser)
       return res.status(200).json({
         success: false,
         message: "Email does not exist",
@@ -24,7 +24,7 @@ const login = async (req, res) => {
       });
 
     // compare password to inputed password
-    const match = await bcrypt.compare(password, findAdmin.password);
+    const match = await bcrypt.compare(password, findUser.password);
 
     // If password did not match
     if (!match)
@@ -34,17 +34,21 @@ const login = async (req, res) => {
         error: "password",
       });
 
-    // If admin's email is not verified
-    if (!findAdmin.email_verified)
+    // If User's email is not verified
+    if (!findUser.email_verified)
       return res.status(200).json({
         success: false,
         message: "Please view your inbox for email confirmation",
         error: "email verification",
       });
 
-    const token = createToken(findAdmin.id);
+    const token = createToken(findUser.id);
     const cookies = new Cookies(req, res);
     cookies.set("access-token", token);
+
+    // Increase login count
+    findUser.login_count = findUser.login_count + 1;
+    findUser.save();
 
     return res.status(200).json({ success: true, message: [] });
   } catch (err) {

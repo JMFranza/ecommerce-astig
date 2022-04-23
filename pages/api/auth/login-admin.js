@@ -55,6 +55,10 @@ const login = async (req, res) => {
     const cookies = new Cookies(req, res);
     cookies.set("access-token", token);
 
+    // Increase login count
+    findAdmin.login_count = findAdmin.login_count + 1;
+    findAdmin.save();
+
     return res.status(200).json({ success: true, message: [] });
   } catch (err) {
     console.log(`Error: ${err}`);

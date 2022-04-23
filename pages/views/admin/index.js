@@ -11,7 +11,7 @@ const index = () => {
     axios
       .delete("/api/auth/logout")
       .then((res) => {
-        router.push("/views/auth/login-user");
+        router.push("/views/auth/login-admin");
       })
       .catch((err) => {
         console.log(err);
@@ -19,7 +19,7 @@ const index = () => {
   };
   return (
     <div>
-      <button onClick={logout}>logout user</button>
+      <button onClick={logout}>logout admin</button>
     </div>
   );
 };
