@@ -5,16 +5,16 @@ export async function middleware(req, event) {
   const token = req.cookies["access-token"];
   const { url, origin } = req.nextUrl.clone();
   // If no token exist
-  if (!token) return NextResponse.redirect(`/${origin}views/auth/login-user`);
+  if (!token) return NextResponse.rewrite(`${origin}/views/auth/login-user`);
   const validateToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
 
   // If admin is logged in
   if (validateToken.role == "admin")
-    return NextResponse.redirect(`${origin}/views/admin`);
+    return NextResponse.rewrite(`${origin}/views/admin`);
 
   // If admin is not logged in or invalid token
   if (validateToken.role != "user" || !validateToken)
-    return NextResponse.redirect(`${origin}/views/auth/user-admin`);
+    return NextResponse.rewrite(`${origin}/views/auth/user-admin`);
 
   NextResponse.next();
 }

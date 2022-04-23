@@ -40,7 +40,7 @@ export default async function verify(req, res) {
       name: findUser.full_name,
       email: findUser.email,
       getDate: getDate(),
-      verify_link: `http://${req.headers.host}/views/auth/forgot-password-user?token=${token}&&id=${findUser.id}`,
+      verify_link: `http://${req.headers.host}/views/auth/change-password-user?token=${token}&&id=${findUser.id}`,
       main_button_text: "Change Your Password",
       header: `${findUser.full_name} Forgot Password OMG!`,
     }),

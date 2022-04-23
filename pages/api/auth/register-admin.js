@@ -29,7 +29,7 @@ const register = async (req, res) => {
     const {
       profile_picture,
       email,
-      adminname,
+      username,
       password,
       password_confirmation,
       full_name,
@@ -41,14 +41,15 @@ const register = async (req, res) => {
     if (password_confirmation != password) {
       return res.status(200).json({
         success: false,
-        message: ["Confirm password is not the same as password"],
+        message: "Confirm password is not the same as password",
+        error: "password_confirmation",
       });
     }
 
     const admin = new Admin({
       profile_picture,
       email,
-      adminname,
+      username,
       password,
       password_confirmation,
       full_name,

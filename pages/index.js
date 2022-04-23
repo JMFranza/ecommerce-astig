@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <h1 className="text-3xl font-bold underline text-blue-700">
-        Hello world!
+        Hello worldsssssssssssssssssssssssss!
       </h1>
     </div>
   );
