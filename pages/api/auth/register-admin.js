@@ -29,7 +29,7 @@ const register = async (req, res) => {
     const {
       profile_picture,
       email,
-      username,
+      adminname,
       password,
       password_confirmation,
       full_name,
@@ -45,10 +45,10 @@ const register = async (req, res) => {
       });
     }
 
-    const user = new Admin({
+    const admin = new Admin({
       profile_picture,
       email,
-      username,
+      adminname,
       password,
       password_confirmation,
       full_name,
@@ -63,11 +63,11 @@ const register = async (req, res) => {
 
     // Generate hash password
     const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(user.password, salt);
-    user.password = hashPassword;
+    const hashPassword = await bcrypt.hash(admin.password, salt);
+    admin.password = hashPassword;
 
-    // Save user
-    const newUser = await user.save();
+    // Save admin
+    const newAdmin = await admin.save();
 
     // Generate email template for admin email
     const mailOptions = {
@@ -81,7 +81,7 @@ const register = async (req, res) => {
         name: full_name,
         email: email,
         getDate: getDate(),
-        verify_link: `http://${req.headers.host}/views/auth/verification-admin?token=${user.email_token}`,
+        verify_link: `http://${req.headers.host}/views/auth/verification-admin?token=${admin.email_token}`,
         main_button_text: "Verify now",
         header: `${full_name} Thanks! `,
       }),
@@ -100,7 +100,7 @@ const register = async (req, res) => {
         name: full_name,
         email: email,
         getDate: getDate(),
-        verify_link: `http://${req.headers.host}/views/auth/verification-admin-super?token=${user.admin_token}`,
+        verify_link: `http://${req.headers.host}/views/auth/verification-admin-super?token=${admin.admin_token}`,
         main_button_text: "Verify now",
         header: `Someone registered to our System!`,
       }),

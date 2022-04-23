@@ -1,5 +1,5 @@
 import dbConnect from "../../../config/dbConnect";
-import User from "../../../models/User";
+import Admin from "../../../models/Admin";
 const ObjectId = require("mongodb").ObjectId;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -22,7 +22,7 @@ dbConnect();
 export default async function verify(req, res) {
   if (req.method != "POST") return res.status(200).json({ success: false });
   const { email } = req.body;
-  const findAdmin = await User.findOne({ email });
+  const findAdmin = await Admin.findOne({ email });
   if (!findAdmin)
     return res
       .status(200)

@@ -65,7 +65,7 @@ const resend_validation_email = async (req, res) => {
     // Find email
     const findUser = await User.findOne({ email: email });
 
-    // Admin email not found
+    // User email not found
     if (!findUser)
       return res.status(200).json({
         success: false,
