@@ -41,7 +41,8 @@ const register = async (req, res) => {
     if (password_confirmation != password) {
       return res.status(200).json({
         success: false,
-        message: ["Confirm password is not the same as password"],
+        message: "Confirm password is not the same as password",
+        error: "password_confirmation",
       });
     }
 
@@ -94,8 +95,11 @@ const register = async (req, res) => {
         console.log("Verification has been sent to your email");
       }
     });
-    return res.status(200).json({ success: true, message: [] });
+    return res
+      .status(200)
+      .json({ success: true, message: "Successfully created an account" });
   } catch (err) {
+    console.log(`Error: ${err}`);
     const errors = err.errors;
     for (const key in errors)
       return res.status(200).send({
@@ -115,7 +119,9 @@ export default async function handler(req, res) {
       return register(req, res);
     }
     default: {
-      return res.status(400).json({ sucess: false, message: [] });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

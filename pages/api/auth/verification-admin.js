@@ -49,9 +49,13 @@ const validate_token = async (req, res) => {
     findAdmin.email_verified = true;
     findAdmin.email_token = "";
     findAdmin.save();
-    res.status(200).json({ sucess: true });
+    return res
+      .status(200)
+      .json({ sucess: true, message: "Admin email verified" });
   } catch (err) {
-    res.status(200).json({ sucess: false, message: "Verification failed" });
+    return res
+      .status(200)
+      .json({ sucess: false, message: "Verification failed" });
   }
 };
 
@@ -75,7 +79,7 @@ const resend_validation_email = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Email has already been verified",
-        error: "email verification",
+        error: "verification",
       });
 
     // Generate email template for admin email
@@ -98,11 +102,16 @@ const resend_validation_email = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptions, (err, info) => {});
 
-    res.status(200).json({ sucess: true });
-  } catch (err) {
-    res
+    return res
       .status(200)
-      .json({ sucess: false, message: "Admin verification failed" });
+      .json({ sucess: true, message: "super admin verified the admin" });
+  } catch (err) {
+    console.log(`Error: ${err}`);
+    return res.status(200).json({
+      success: false,
+      message: "Admin verification failed",
+      error: "server",
+    });
   }
 };
 
@@ -115,7 +124,9 @@ export default async function handler(req, res) {
       return resend_validation_email(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false, message: "Wrong route" });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

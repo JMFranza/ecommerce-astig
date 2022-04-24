@@ -39,7 +39,7 @@ const login = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Please view your inbox for email confirmation",
-        error: "email verification",
+        error: "verification",
       });
 
     const token = createToken(findUser.id);
@@ -50,10 +50,14 @@ const login = async (req, res) => {
     findUser.login_count = findUser.login_count + 1;
     findUser.save();
 
-    return res.status(200).json({ success: true, message: [] });
+    return res
+      .status(200)
+      .json({ success: true, message: "successfully logged in" });
   } catch (err) {
     console.log(`Error: ${err}`);
-    return res.status(401).json({ success: false, message: [] });
+    return res
+      .status(200)
+      .json({ success: false, message: "server ereror", error: "server" });
   }
 };
 
@@ -63,7 +67,9 @@ export default async function handler(req, res) {
       return login(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false, message: [] });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

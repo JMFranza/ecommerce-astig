@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-
+import Button from "@material-ui/core/Button";
 import * as React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
@@ -21,12 +21,16 @@ export default function MyApp(props) {
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        ></link>
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, 
-                consistent, and simple baseline to
-                build upon. */}
-
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>

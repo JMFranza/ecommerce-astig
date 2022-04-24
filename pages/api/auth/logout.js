@@ -6,9 +6,16 @@ const logout = async (req, res) => {
   try {
     const cookies = new Cookies(req, res);
     cookies.set("access-token", "");
-    res.status(200).json({ sucess: true, message: ["logout successfully"] });
+    return res
+      .status(200)
+      .json({ sucess: true, message: "logout successfully" });
   } catch (err) {
-    res.status(200).json({ sucess: false, message: ["logout failed"] });
+    console.log(`Error: ${err}`);
+    return res.status(200).json({
+      success: false,
+      message: "server ereror logout failed",
+      error: "server",
+    });
   }
 };
 
@@ -19,7 +26,9 @@ export default async function handler(req, res) {
     }
 
     default: {
-      res.status(400).json({ sucess: false, message: [] });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

@@ -109,8 +109,11 @@ const register = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptionsAdmin, (err, info) => {});
 
-    return res.status(200).json({ success: true, message: [] });
+    return res
+      .status(200)
+      .json({ success: true, message: "account created successfuly" });
   } catch (err) {
+    console.log(`Error: ${err}`);
     const errors = err.errors;
     for (const key in errors)
       return res.status(200).send({
@@ -130,7 +133,9 @@ export default async function handler(req, res) {
       return register(req, res);
     }
     default: {
-      return res.status(400).json({ sucess: false, message: [] });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

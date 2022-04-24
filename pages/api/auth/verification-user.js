@@ -78,7 +78,7 @@ const resend_validation_email = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Email has already been verified",
-        error: "email verification",
+        error: "verification",
       });
 
     // Generate email template
@@ -109,11 +109,16 @@ const resend_validation_email = async (req, res) => {
       }
     });
 
-    return res.status(200).json({ sucess: true });
-  } catch (err) {
     return res
       .status(200)
-      .json({ sucess: false, message: "Sending token failed" });
+      .json({ sucess: true, message: "verification sent successfully" });
+  } catch (err) {
+    console.log(`Error: ${err}`);
+    return res.status(200).json({
+      sucess: false,
+      message: "Sending token failed",
+      error: "server",
+    });
   }
 };
 
@@ -126,7 +131,9 @@ export default async function handler(req, res) {
       return resend_validation_email(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false, message: "Wrong route" });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }
