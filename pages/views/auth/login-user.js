@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 
+import styledComponents from "styled-components";
+import { mobile } from "../../responsive";
+
 const login_user = () => {
   const router = useRouter();
   const formik = useFormik({
