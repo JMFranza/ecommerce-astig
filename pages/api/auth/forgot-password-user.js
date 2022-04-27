@@ -37,7 +37,7 @@ export default async function verify(req, res) {
 
     // Generate email template
     const mailOptions = {
-      from: `Password Reset <${process.env.NODEMAILER_EMAIL}>`,
+      from: `User Password Reset <${process.env.NODEMAILER_EMAIL}>`,
       to: findUser.email,
       subject: "Astig User Password Reset",
       html: transTemplate({

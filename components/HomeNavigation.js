@@ -1,5 +1,6 @@
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
+import Avatar from "@mui/material/Avatar";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,8 +14,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import LoginIcon from "@mui/icons-material/Login";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import HelpIcon from "@mui/icons-material/Help";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -121,35 +124,17 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
+          <Badge>
+            <LoginIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>Sign up</p>
       </MenuItem>
       <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
+        <IconButton size="large" aria-label="Register icon" color="inherit">
+          <AppRegistrationIcon />
         </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+        <p>Register</p>
       </MenuItem>
     </Menu>
   );
@@ -167,26 +152,26 @@ export default function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            MUI
-          </Typography>
+
           <Search>
-            <SearchIconWrapper sx={{ mr: 4 }}>
+            <SearchIconWrapper sx={{ mr: 10 }}>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
-              sx={{ ml: 8 }}
+              sx={{ ml: 8, l: 10 }}
             />
           </Search>
+
           <Box sx={{ flexGrow: 1 }} />
+
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Avatar
+              alt="Logo icon search"
+              src="https://media.discordapp.net/attachments/955281529481883729/968792191638056960/12-removebg-preview_1.png"
+              sx={{ width: 40, height: 40, m: "5%" }}
+            />
             <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -214,17 +199,6 @@ export default function PrimarySearchAppBar() {
               >
                 Sign-in
               </Typography>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

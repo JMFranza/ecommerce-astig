@@ -16,14 +16,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const register = async (req, res) => {
   try {
     const {
@@ -72,9 +64,9 @@ const register = async (req, res) => {
 
     // Generate email template for admin email
     const mailOptions = {
-      from: `verify your email from <${process.env.NODEMAILER_SERVICE}>`,
+      from: `Admin - Verify your email from <${process.env.NODEMAILER_SERVICE}>`,
       to: email,
-      subject: "Astig verification -verify your email",
+      subject: "Astig Admin verification -verify your email",
       html: transTemplate({
         role: "Admin",
         message:
@@ -92,9 +84,9 @@ const register = async (req, res) => {
 
     // Generate email template for super admin template
     var mailOptionsAdmin = {
-      from: `Please Verify Email <${process.env.NODEMAILER_SERVICE}>`,
+      from: `Admin Please Verify Email <${process.env.NODEMAILER_SERVICE}>`,
       to: process.env.NODEMAILER_SUPER_ADMIN,
-      subject: "Astig verification -verify staff",
+      subject: "Astig Admin verification -verify staff",
       html: transTemplate({
         role: "Astig main admin",
         message: `Verify Librarian Staff Named : ${full_name}. With an email of Of ${email} \n location: ${postal_code} ${country}`,

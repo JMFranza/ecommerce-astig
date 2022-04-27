@@ -11,13 +11,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
 dbConnect();
 export default async function verify(req, res) {
   if (req.method != "POST")
@@ -45,7 +38,7 @@ export default async function verify(req, res) {
 
     // Generate email template
     const mailOptions = {
-      from: `Password Reset <${process.env.NODEMAILER_EMAIL}>`,
+      from: `Admin Password Reset <${process.env.NODEMAILER_EMAIL}>`,
       to: findAdmin.email,
       subject: "Astig Admin Password Reset",
       html: transTemplate({

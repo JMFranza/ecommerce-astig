@@ -16,14 +16,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const validate_token = async (req, res) => {
   try {
     const { token } = req.query;
@@ -85,9 +77,9 @@ const resend_validation_email = async (req, res) => {
 
     // Generate email template for super admin template
     var mailOptionsAdmin = {
-      from: `Please Verify Email <${process.env.NODEMAILER_SERVICE}>`,
+      from: `Admin Please Verify Email <${process.env.NODEMAILER_SERVICE}>`,
       to: process.env.NODEMAILER_SUPER_ADMIN,
-      subject: "Astig verification -verify staff",
+      subject: "Astig  Admin verification -verify staff",
       html: transTemplate({
         role: "Astig main admin",
         message: `Verify Librarian Staff Named : ${findAdmin.full_name}. With an email of Of ${findAdmin.email} \n location: ${findAdmin.postal_code} ${findAdmin.country}`,

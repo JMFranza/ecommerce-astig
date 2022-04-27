@@ -14,7 +14,6 @@ const login = async (req, res) => {
     // Find email
     const { email, password } = req.body;
     const findUser = await User.findOne({ email: email });
-
     // User email not found
     if (!findUser)
       return res.status(200).json({

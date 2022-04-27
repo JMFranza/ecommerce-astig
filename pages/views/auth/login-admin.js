@@ -1,54 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Head from "next/head";
 
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
+import { TextField, Button, MenuItem, Avatar } from "@mui/material";
+import { toast } from "react-toastify";
+
+import styledComponents from "styled-components";
+import HomeNavigation from "../../../components/HomeNavigation";
+import LoginAdmin from "../../../components/auth-components/LoginAdmin";
+toast.configure();
 
 const login_admin = () => {
-  const router = useRouter();
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-
-    onSubmit: (values) => {
-      axios
-        .post("/api/auth/login-admin", values)
-        .then((res) => {
-          if (res.data.success) {
-            router.push("/views/admin");
-          }
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  });
-
   return (
     <div>
-      <form onSubmit={formik.handleSubmit} style={{ width: "14%" }}>
-        <label htmlFor="email">Email Address</label>
-        <input
-          id="email"
-          name="email"
-          type="text"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <Head>
+        <title>Astig03 - Login Admin</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <HomeNavigation />
+      <LoginAdmin />
     </div>
   );
 };

@@ -16,14 +16,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const validate_token = async (req, res) => {
   try {
     const { token } = req.query;
@@ -83,11 +75,11 @@ const resend_validation_email = async (req, res) => {
 
     // Generate email template
     const mailOptions = {
-      from: `verify your email from <${process.env.NODEMAILER_SERVICE}>`,
+      from: `User - verify your email from <${process.env.NODEMAILER_SERVICE}>`,
       to: findUser.email,
-      subject: "Astig verification -verify your email",
+      subject: "Astig User verification -verify your email",
       html: transTemplate({
-        role: "Astig",
+        role: "Astig User",
         message:
           "Thank you for registering on our site. You can order astig merchandise now if you verify your account by clicking the button below",
         name: findUser.full_name,
