@@ -8,7 +8,7 @@ const logout = async (req, res) => {
     cookies.set("access-token", "");
     return res
       .status(200)
-      .json({ sucess: true, message: "logout successfully" });
+      .json({ success: true, message: "logout successfully" });
   } catch (err) {
     console.log(`Error: ${err}`);
     return res.status(200).json({
@@ -26,14 +26,12 @@ export default async function handler(req, res) {
     }
 
     default: {
-      return res
-        .status(200)
-        .json({
-          success: false,
-          message: "server ereror",
-          error: "server",
-          values: req.body,
-        });
+      return res.status(200).json({
+        success: false,
+        message: "server ereror",
+        error: "server",
+        values: req.body,
+      });
     }
   }
 }

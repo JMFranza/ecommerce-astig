@@ -10,10 +10,23 @@ import { toast } from "react-toastify";
 
 import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
+import VerificationAdminSuper from "../../../components/auth-components/VerificationAdminSuper";
 
+import forms from "../../../config/FormService";
 toast.configure();
 
 const verification_admin_super = () => {
+  const [adminAccount, setAdminAccount] = useState({});
+  const getAdminAccount = async () => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    const token = params.token;
+    const data = await forms.get_admin_account(token);
+    if (data.success) setAdminAccount(data);
+  };
+  useEffect(() => {
+    getAdminAccount();
+  }, [setAdminAccount]);
   return (
     <div>
       <Head>
@@ -21,6 +34,7 @@ const verification_admin_super = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <HomeNavigation />
+      <VerificationAdminSuper profile={adminAccount} />
     </div>
   );
 };

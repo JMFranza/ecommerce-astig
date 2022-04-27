@@ -44,7 +44,7 @@ const validate_token = async (req, res) => {
     findAdmin.admin_token = "";
     findAdmin.save();
 
-    res.status(200).json({ sucess: true });
+    res.status(200).json({ success: true });
   } catch (err) {
     return res.status(200).json({
       success: false,
@@ -100,7 +100,7 @@ const resend_validation_email = async (req, res) => {
     await transporter.sendMail(mailOptionsAdmin, (err, info) => {});
 
     return res.status(200).json({
-      sucess: true,
+      success: true,
       message: "verication sent successfuly",
       values: req.body,
     });
@@ -124,14 +124,12 @@ export default async function handler(req, res) {
       return resend_validation_email(req, res);
     }
     default: {
-      return res
-        .status(200)
-        .json({
-          success: false,
-          message: "server ereror",
-          error: "server",
-          values: req.body,
-        });
+      return res.status(200).json({
+        success: false,
+        message: "server ereror",
+        error: "server",
+        values: req.body,
+      });
     }
   }
 }

@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
-
+import VerificationAdmin from "../../../components/auth-components/VerificationAdmin";
 toast.configure();
 
 const verification_admin = () => {
@@ -20,7 +20,10 @@ const verification_admin = () => {
         <title>Astig03 - Admin Verification</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <HomeNavigation />
+      <div className="absolute w-full">
+        <HomeNavigation />
+      </div>
+      <VerificationAdmin />
     </div>
   );
 };

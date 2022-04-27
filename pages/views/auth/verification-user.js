@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
-
+import VerificationUser from "../../../components/auth-components/VerificationUser";
 toast.configure();
 
 const verification_user = () => {
@@ -21,6 +21,7 @@ const verification_user = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <HomeNavigation />
+      <VerificationUser />
     </div>
   );
 };

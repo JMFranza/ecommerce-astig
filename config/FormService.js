@@ -50,6 +50,30 @@ const super_admin_verification = async (email) => {
     .then((response) => response.data);
 };
 
+const user_account_verification = async (token) => {
+  return await axios
+    .get(`${url}/api/auth/verification-user?token=${token}`)
+    .then((response) => response.data);
+};
+
+const admin_account_verification = async (token) => {
+  return await axios
+    .get(`${url}/api/auth/verification-admin?token=${token}`)
+    .then((response) => response.data);
+};
+
+const super_admin_account_verification = async (token) => {
+  return await axios
+    .get(`${url}/api/auth/verification-admin-super?token=${token}`)
+    .then((response) => response.data);
+};
+
+const get_admin_account = async (token) => {
+  return await axios
+    .post(`${url}/api/auth/account-admin`, { token })
+    .then((response) => response.data);
+};
+
 module.exports = {
   user_login,
   admin_login,
@@ -58,4 +82,8 @@ module.exports = {
   user_verification,
   admin_verification,
   super_admin_verification,
+  user_account_verification,
+  admin_account_verification,
+  super_admin_account_verification,
+  get_admin_account,
 };

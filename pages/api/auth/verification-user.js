@@ -44,10 +44,10 @@ const validate_token = async (req, res) => {
     findUser.email_verified = true;
     findUser.email_token = "";
     findUser.save();
-    res.status(200).json({ sucess: true });
+    res.status(200).json({ success: true });
   } catch (err) {
     return res.status(200).json({
-      sucess: false,
+      success: false,
       message: "Validating token failed",
       values: req.body,
     });
@@ -108,14 +108,14 @@ const resend_validation_email = async (req, res) => {
     });
 
     return res.status(200).json({
-      sucess: true,
+      success: true,
       message: "verification sent successfully",
       values: req.body,
     });
   } catch (err) {
     console.log(`Error: ${err}`);
     return res.status(200).json({
-      sucess: false,
+      success: false,
       message: "Sending token failed",
       error: "server",
       values: req.body,

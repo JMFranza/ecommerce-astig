@@ -44,13 +44,13 @@ const validate_token = async (req, res) => {
     findAdmin.email_token = "";
     findAdmin.save();
     return res.status(200).json({
-      sucess: true,
+      success: true,
       message: "Admin email verified",
       values: req.body,
     });
   } catch (err) {
     return res.status(200).json({
-      sucess: false,
+      success: false,
       message: "Verification failed",
       values: req.body,
     });
@@ -103,7 +103,7 @@ const resend_validation_email = async (req, res) => {
     await transporter.sendMail(mailOptions, (err, info) => {});
 
     return res.status(200).json({
-      sucess: true,
+      success: true,
       message: "super admin verified the admin",
       values: req.body,
     });
