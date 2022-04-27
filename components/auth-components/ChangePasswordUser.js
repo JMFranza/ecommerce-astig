@@ -24,14 +24,12 @@ import Copyright from "../public-components/Copyright";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
-const ForgotPasswordAdmin = () => {
-  const router = useRouter();
-
+const ChangePasswordUser = () => {
   // Use in forms dynamically
   const [userForm, setUserForm] = useState({ message: "", error: "" });
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("admin forgot password");
+    console.log("change password user");
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -61,14 +59,26 @@ const ForgotPasswordAdmin = () => {
             variant="outlined"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            type="email"
-            autoComplete="email"
-            autoFocus
-            error={userForm.error == "email"}
-            helperText={userForm.error == "email" ? userForm.message : ""}
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            error={userForm.error == "password"}
+            helperText={userForm.error == "password" ? userForm.message : ""}
+          />
+          <TextField
+            margin="normal"
+            variant="outlined"
+            required
+            fullWidth
+            name="password_confirmation"
+            label="Confirm Password"
+            type="password"
+            id="password_confirmation"
+            error={userForm.error == "password_confirmation"}
+            helperText={
+              userForm.error == "password_confirmation" ? userForm.message : ""
+            }
           />
 
           <Button
@@ -77,41 +87,8 @@ const ForgotPasswordAdmin = () => {
             variant="outlined"
             sx={{ mt: 3, mb: 2 }}
           >
-            Send Verification
+            Change Password
           </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            sx={{ mb: 2 }}
-            startIcon={<GoogleIcon />}
-          >
-            Sign In With Google
-          </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            sx={{ mb: 2 }}
-            startIcon={<FacebookIcon />}
-          >
-            Sign In With Facebook
-          </Button>
-          <Box
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "100vh", textAlign: "center" }}
-            sx={{ my: 5 }}
-          >
-            <Link href="/views/auth/login-admin" variant="body2">
-              {"Already have an Account? Sign In"}
-            </Link>
-            <br />
-            <Link href="/views/auth/register-admin" variant="body2">
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Box>
         </Box>
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }} />
@@ -119,4 +96,4 @@ const ForgotPasswordAdmin = () => {
   );
 };
 
-export default ForgotPasswordAdmin;
+export default ChangePasswordUser;

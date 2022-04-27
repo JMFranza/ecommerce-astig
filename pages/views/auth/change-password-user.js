@@ -10,12 +10,9 @@ import { toast } from "react-toastify";
 
 import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
-
+import ChangePasswordUser from "../../../components/auth-components/ChangePasswordUser";
 toast.configure();
 const change_password_user = () => {
-  // Password
-  // Confirm password
-  // Submit
   return (
     <div>
       <Head>
@@ -23,6 +20,7 @@ const change_password_user = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <HomeNavigation />
+      <ChangePasswordUser />
     </div>
   );
 };

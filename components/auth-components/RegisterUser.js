@@ -241,17 +241,14 @@ const RegisterUser = () => {
                   userForm.error == "postal_code" ? userForm.message : ""
                 }
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
               <Button
                 type="submit"
                 fullWidth
                 variant="outlined"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign Up
               </Button>
               <Button
                 fullWidth

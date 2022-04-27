@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
-
+import ChangePasswordAdmin from "../../../components/auth-components/ChangePasswordAdmin";
 toast.configure();
 
 toast.configure();
@@ -22,6 +22,7 @@ const change_password_admin = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <HomeNavigation />
+      <ChangePasswordAdmin />
     </div>
   );
 };

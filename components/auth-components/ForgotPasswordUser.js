@@ -72,17 +72,13 @@ const ForgotPasswordUser = () => {
             helperText={userForm.error == "email" ? userForm.message : ""}
           />
 
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
             variant="outlined"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Send Verification
           </Button>
           <Button
             fullWidth
