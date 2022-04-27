@@ -28,6 +28,7 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Verification link does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If admin's email verified
@@ -36,6 +37,7 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Email has already been verified by the admin",
         error: "verification",
+        values: req.body,
       });
 
     findAdmin.admin_verified = true;
@@ -48,6 +50,7 @@ const validate_token = async (req, res) => {
       success: false,
       message: "verification failed",
       error: "verifcation",
+      values: req.body,
     });
   }
 };
@@ -65,6 +68,7 @@ const resend_validation_email = async (req, res) => {
         success: false,
         message: "Email does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If admin's email verified
@@ -73,6 +77,7 @@ const resend_validation_email = async (req, res) => {
         success: false,
         message: "Email has already been verified by the admin",
         error: "verification",
+        values: req.body,
       });
 
     // Generate email template for super admin template
@@ -94,15 +99,18 @@ const resend_validation_email = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptionsAdmin, (err, info) => {});
 
-    return res
-      .status(200)
-      .json({ sucess: true, message: "verication sent successfuly" });
+    return res.status(200).json({
+      sucess: true,
+      message: "verication sent successfuly",
+      values: req.body,
+    });
   } catch (err) {
     console.log(`Error: ${err}`);
     return res.status(200).json({
       success: false,
       message: "Super Admin verification failed",
       error: "server",
+      values: req.body,
     });
   }
 };
@@ -118,7 +126,12 @@ export default async function handler(req, res) {
     default: {
       return res
         .status(200)
-        .json({ success: false, message: "server ereror", error: "server" });
+        .json({
+          success: false,
+          message: "server ereror",
+          error: "server",
+          values: req.body,
+        });
     }
   }
 }

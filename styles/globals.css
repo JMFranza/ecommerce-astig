@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.banner {
+    background: url( 'https://cdn.discordapp.com/attachments/955281529481883729/968864761540386866/pexels-carlos-pernalete-tua-674833.jpg' );
+    background-repeat: no-repeat;
+    background-size: cover        
+}

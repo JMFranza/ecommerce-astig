@@ -20,6 +20,7 @@ const login = async (req, res) => {
         success: false,
         message: "Email does not exist",
         error: "email",
+        values: req.body,
       });
 
     // compare password to inputed password
@@ -31,6 +32,7 @@ const login = async (req, res) => {
         success: false,
         message: "Incorrect password",
         error: "password",
+        values: req.body,
       });
 
     // If User's email is not verified
@@ -39,6 +41,7 @@ const login = async (req, res) => {
         success: false,
         message: "Please view your inbox for email confirmation",
         error: "verification",
+        values: req.body,
       });
 
     const token = createToken(findUser.id);
@@ -49,14 +52,21 @@ const login = async (req, res) => {
     findUser.login_count = findUser.login_count + 1;
     findUser.save();
 
-    return res
-      .status(200)
-      .json({ success: true, message: "successfully logged in" });
+    return res.status(200).json({
+      success: true,
+      message: "successfully logged in",
+      values: req.body,
+    });
   } catch (err) {
     console.log(`Error: ${err}`);
     return res
       .status(200)
-      .json({ success: false, message: "server ereror", error: "server" });
+      .json({
+        success: false,
+        message: "server ereror",
+        error: "server",
+        values: req.body,
+      });
   }
 };
 

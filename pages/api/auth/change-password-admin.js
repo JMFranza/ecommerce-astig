@@ -19,31 +19,41 @@ export default async function verify(req, res) {
           success: false,
           message: "Verification does not exist",
           error: "verification",
+          values: req.body,
         });
       if (password.length <= 5)
         return res.status(200).json({
           success: false,
           message: "Password must be longer than 5 characters",
           error: "password",
+          values: req.body,
         });
       if (password_confirmation != password)
         return res.status(200).json({
           success: false,
           message: "Password does not match",
           error: "password_confirmation",
+          values: req.body,
         });
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
       admin.password = hashPassword;
       admin.save();
-      return res
-        .status(200)
-        .json({ success: true, message: "successfully changed password" });
+      return res.status(200).json({
+        success: true,
+        message: "successfully changed password",
+        values: req.body,
+      });
     } catch (err) {
       console.log(`Error: ${err}`);
       return res
         .status(200)
-        .json({ success: false, message: "server ereror", error: "server" });
+        .json({
+          success: false,
+          message: "server ereror",
+          error: "server",
+          values: req.body,
+        });
     }
   }
 

@@ -62,7 +62,9 @@ export default async function verify(req, res) {
         console.log("Verification has been sent to your email");
       }
     });
-    return res.status(200).json({ success: true, message: "check your inbox" });
+    return res
+      .status(200)
+      .json({ success: true, message: "check your inbox", values: req.body });
   } catch (err) {
     console.log(`Error: ${err}`);
     return res

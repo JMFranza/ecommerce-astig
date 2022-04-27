@@ -10,7 +10,6 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
@@ -18,6 +17,8 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LoginIcon from "@mui/icons-material/Login";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import HelpIcon from "@mui/icons-material/Help";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -60,6 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -143,16 +145,15 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 1 }}
-          >
-            <MenuIcon />
-          </IconButton>
-
+          <Link href="/">
+            <a>
+              <Avatar
+                alt="Logo icon search"
+                src="https://media.discordapp.net/attachments/955281529481883729/968792191638056960/12-removebg-preview_1.png"
+                sx={{ width: 40, height: 40, m: 2 }}
+              />
+            </a>
+          </Link>
           <Search>
             <SearchIconWrapper sx={{ mr: 10 }}>
               <SearchIcon />
@@ -167,15 +168,11 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Avatar
-              alt="Logo icon search"
-              src="https://media.discordapp.net/attachments/955281529481883729/968792191638056960/12-removebg-preview_1.png"
-              sx={{ width: 40, height: 40, m: "5%" }}
-            />
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              onClick={() => router.push("/views/auth/register-user")}
             >
               <Typography
                 variant="h6"
@@ -190,6 +187,7 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={() => router.push("/views/auth/login-user")}
             >
               <Typography
                 variant="h6"

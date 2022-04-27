@@ -29,6 +29,7 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Verification link does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If Users' email verified
@@ -37,6 +38,7 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Email has already been verified",
         error: "email verification",
+        values: req.body,
       });
 
     findUser.email_verified = true;
@@ -44,9 +46,11 @@ const validate_token = async (req, res) => {
     findUser.save();
     res.status(200).json({ sucess: true });
   } catch (err) {
-    return res
-      .status(200)
-      .json({ sucess: false, message: "Validating token failed" });
+    return res.status(200).json({
+      sucess: false,
+      message: "Validating token failed",
+      values: req.body,
+    });
   }
 };
 
@@ -63,6 +67,7 @@ const resend_validation_email = async (req, res) => {
         success: false,
         message: "Email does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If email verified
@@ -71,6 +76,7 @@ const resend_validation_email = async (req, res) => {
         success: false,
         message: "Email has already been verified",
         error: "verification",
+        values: req.body,
       });
 
     // Generate email template
@@ -101,15 +107,18 @@ const resend_validation_email = async (req, res) => {
       }
     });
 
-    return res
-      .status(200)
-      .json({ sucess: true, message: "verification sent successfully" });
+    return res.status(200).json({
+      sucess: true,
+      message: "verification sent successfully",
+      values: req.body,
+    });
   } catch (err) {
     console.log(`Error: ${err}`);
     return res.status(200).json({
       sucess: false,
       message: "Sending token failed",
       error: "server",
+      values: req.body,
     });
   }
 };

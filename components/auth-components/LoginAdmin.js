@@ -18,6 +18,11 @@ import { toast } from "react-toastify";
 
 import styledComponents from "styled-components";
 import forms from "../../config/FormService";
+import Copyright from "../public-components/Copyright";
+
+// Icons
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookIcon from "@mui/icons-material/Facebook";
 
 toast.configure();
 const LoginAdmin = () => {
@@ -34,104 +39,114 @@ const LoginAdmin = () => {
     } else {
       setUserForm({ message: "", error: "" });
       toast.success("logging-in...");
-      router.push("/views/user");
+      router.push("/views/admin");
     }
   };
+
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in Admin
-        </Typography>
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{ mt: 1 }}
-          autoComplete="off"
-        >
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            type="email"
-            autoComplete="email"
-            autoFocus
-            error={userForm.error == "email"}
-            helperText={userForm.error == "email" ? userForm.message : ""}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            error={userForm.error == "password"}
-            helperText={userForm.error == "password" ? userForm.message : ""}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            sx={{ mt: 3, mb: 2 }}
+    <div className="grid grid-cols-12">
+      <div className="col-span-12 lg:col-span-4 text-black font-sans font-bold bg-white min-h-screen pl-7">
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
-    </Container>
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in Admin
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+              autoComplete="off"
+            >
+              <TextField
+                margin="normal"
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                autoFocus
+                error={userForm.error == "email"}
+                helperText={userForm.error == "email" ? userForm.message : ""}
+              />
+
+              <TextField
+                margin="normal"
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                error={userForm.error == "password"}
+                helperText={
+                  userForm.error == "password" ? userForm.message : ""
+                }
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="outlined"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ mb: 2 }}
+                startIcon={<GoogleIcon />}
+              >
+                Sign In With Google
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ mb: 2 }}
+                startIcon={<FacebookIcon />}
+              >
+                Sign In With Facebook
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+          <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
+      </div>
+
+      <div className="banner col-span-8 text-white font-sans font-bold"></div>
+    </div>
   );
 };
 
 export default LoginAdmin;
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}

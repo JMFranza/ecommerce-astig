@@ -25,6 +25,7 @@ export default async function verify(req, res) {
         success: false,
         message: 'Email Doesn"t exist',
         error: "email",
+        values: req.body,
       });
     const secret = process.env.JWT_SECRET_KEY + findUser.password;
 
@@ -61,11 +62,18 @@ export default async function verify(req, res) {
         console.log("Verification has been sent to your email");
       }
     });
-    return res.status(200).json({ success: true, message: "Check your inbox" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Check your inbox", values: req.body });
   } catch (err) {
     console.log(`Error: ${err}`);
     return res
       .status(200)
-      .json({ success: false, message: "server ereror", error: "server" });
+      .json({
+        success: false,
+        message: "server ereror",
+        error: "server",
+        values: req.body,
+      });
   }
 }
