@@ -12,6 +12,8 @@ import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
 
 toast.configure();
+
+import ForgotPasswordUser from "../../../components/auth-components/ForgotPasswordUser";
 const forgot_password_user = () => {
   return (
     <div>
@@ -20,6 +22,7 @@ const forgot_password_user = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <HomeNavigation />
+      <ForgotPasswordUser />
     </div>
   );
 };

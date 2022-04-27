@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
-
+import ForgotPasswordAdmin from "../../../components/auth-components/ForgotPasswordAdmin";
 toast.configure();
 const forgot_password_admin = () => {
   return (
@@ -20,6 +20,7 @@ const forgot_password_admin = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <HomeNavigation />
+      <ForgotPasswordAdmin />
     </div>
   );
 };
