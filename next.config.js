@@ -21,8 +21,8 @@ module.exports = {
       "KEYKEY9d7c5245015e6bed7d5813d7e4edf3f42c279e29e00d82b9KEYKEY",
 
     NODEMAILER_SERVICE: "gmail",
-    NODEMAILER_EMAIL: "smfairviewcinema@gmail.com",
-    NODEMAILER_PASSWORD: "smfairview",
-    NODEMAILER_SUPER_ADMIN: "chaptersonlinelibrary404@gmail.com",
+    NODEMAILER_EMAIL: "no.reply.astig03@gmail.com",
+    NODEMAILER_PASSWORD: '4-DKHydYFhmX;}"',
+    NODEMAILER_SUPER_ADMIN: "astig03.Aadmiin@gmail.com",
   },
 };
