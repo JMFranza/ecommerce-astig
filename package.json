@@ -21,6 +21,7 @@
     "@mui/material": "^5.6.2",
     "@theme-ui/theme-provider": "^0.14.4",
     "@themesberg/tailwind-datepicker": "^1.1.0",
+    "@vespaiach/axios-fetch-adapter": "^0.2.2",
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",

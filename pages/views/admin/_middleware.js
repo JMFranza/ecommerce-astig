@@ -1,5 +1,6 @@
 import { NextResponse, NextFetchEvent, NextRequest } from "next/server";
-const jwt = require("jsonwebtoken");
+import axios from "axios";
+import fetchAdapter from "@vespaiach/axios-fetch-adapter";
 
 export async function middleware(req, event) {
   const token = req.cookies["access-token"];
@@ -7,7 +8,14 @@ export async function middleware(req, event) {
 
   // // If no token exist
   if (!token) return NextResponse.rewrite(`${origin}/views/auth/login-admin`);
-  const validateToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+  // Requesting token validation
+  const axiosInstance = axios.create({
+    adapter: fetchAdapter,
+  });
+  const verify_token = await axiosInstance
+    .get(`${origin}/api/auth/authenticate?token=${token}`)
+    .then((res) => res.data);
+  const validateToken = verify_token.data;
 
   // If user is logged in
   if (validateToken.role == "user")
