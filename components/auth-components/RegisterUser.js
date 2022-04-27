@@ -97,7 +97,7 @@ const RegisterUser = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign Up Admin
+              Sign Up User
             </Typography>
             <Box
               component="form"
@@ -271,13 +271,13 @@ const RegisterUser = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="/views/auth/forgot-password-user" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/views/auth/login-user" variant="body2">
+                    {"Already have an Account? Sign In"}
                   </Link>
                 </Grid>
               </Grid>

@@ -128,13 +128,16 @@ const LoginAdmin = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link
+                    href="/views/auth/forgot-password-admin"
+                    variant="body2"
+                  >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/views/auth/register-admin" variant="body2">
+                    {"Don't have an account? Sign Up admin"}
                   </Link>
                 </Grid>
               </Grid>
