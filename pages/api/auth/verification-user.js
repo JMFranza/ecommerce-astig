@@ -16,14 +16,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const validate_token = async (req, res) => {
   try {
     const { token } = req.query;
@@ -37,6 +29,7 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Verification link does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If Users' email verified
@@ -45,16 +38,19 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Email has already been verified",
         error: "email verification",
+        values: req.body,
       });
 
     findUser.email_verified = true;
     findUser.email_token = "";
     findUser.save();
-    res.status(200).json({ sucess: true });
+    res.status(200).json({ success: true });
   } catch (err) {
-    return res
-      .status(200)
-      .json({ sucess: false, message: "Validating token failed" });
+    return res.status(200).json({
+      success: false,
+      message: "Validating token failed",
+      values: req.body,
+    });
   }
 };
 
@@ -71,6 +67,7 @@ const resend_validation_email = async (req, res) => {
         success: false,
         message: "Email does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If email verified
@@ -78,16 +75,17 @@ const resend_validation_email = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Email has already been verified",
-        error: "email verification",
+        error: "verification",
+        values: req.body,
       });
 
     // Generate email template
     const mailOptions = {
-      from: `verify your email from <${process.env.NODEMAILER_SERVICE}>`,
+      from: `User - verify your email from <${process.env.NODEMAILER_SERVICE}>`,
       to: findUser.email,
-      subject: "Astig verification -verify your email",
+      subject: "Astig User verification -verify your email",
       html: transTemplate({
-        role: "Astig",
+        role: "Astig User",
         message:
           "Thank you for registering on our site. You can order astig merchandise now if you verify your account by clicking the button below",
         name: findUser.full_name,
@@ -109,11 +107,19 @@ const resend_validation_email = async (req, res) => {
       }
     });
 
-    return res.status(200).json({ sucess: true });
+    return res.status(200).json({
+      success: true,
+      message: "verification sent successfully",
+      values: req.body,
+    });
   } catch (err) {
-    return res
-      .status(200)
-      .json({ sucess: false, message: "Sending token failed" });
+    console.log(`Error: ${err}`);
+    return res.status(200).json({
+      success: false,
+      message: "Sending token failed",
+      error: "server",
+      values: req.body,
+    });
   }
 };
 
@@ -126,7 +132,9 @@ export default async function handler(req, res) {
       return resend_validation_email(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false, message: "Wrong route" });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

@@ -16,14 +16,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const validate_token = async (req, res) => {
   try {
     const { token } = req.query;
@@ -36,6 +28,7 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Verification link does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If admin's email verified
@@ -43,16 +36,22 @@ const validate_token = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Email has already been verified by the admin",
-        error: "email verification",
+        error: "verification",
+        values: req.body,
       });
 
     findAdmin.admin_verified = true;
     findAdmin.admin_token = "";
     findAdmin.save();
 
-    res.status(200).json({ sucess: true });
+    res.status(200).json({ success: true });
   } catch (err) {
-    res.status(200).json({ sucess: false, message: "Verification failed" });
+    return res.status(200).json({
+      success: false,
+      message: "verification failed",
+      error: "verifcation",
+      values: req.body,
+    });
   }
 };
 
@@ -69,6 +68,7 @@ const resend_validation_email = async (req, res) => {
         success: false,
         message: "Email does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If admin's email verified
@@ -76,14 +76,15 @@ const resend_validation_email = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Email has already been verified by the admin",
-        error: "email verification",
+        error: "verification",
+        values: req.body,
       });
 
     // Generate email template for super admin template
     var mailOptionsAdmin = {
-      from: `Please Verify Email <${process.env.NODEMAILER_SERVICE}>`,
+      from: `Admin Please Verify Email <${process.env.NODEMAILER_SERVICE}>`,
       to: process.env.NODEMAILER_SUPER_ADMIN,
-      subject: "Astig verification -verify staff",
+      subject: "Astig  Admin verification -verify staff",
       html: transTemplate({
         role: "Astig main admin",
         message: `Verify Librarian Staff Named : ${findAdmin.full_name}. With an email of Of ${findAdmin.email} \n location: ${findAdmin.postal_code} ${findAdmin.country}`,
@@ -98,11 +99,19 @@ const resend_validation_email = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptionsAdmin, (err, info) => {});
 
-    res.status(200).json({ sucess: true });
+    return res.status(200).json({
+      success: true,
+      message: "verication sent successfuly",
+      values: req.body,
+    });
   } catch (err) {
-    res
-      .status(200)
-      .json({ sucess: false, message: "Super Admin verification failed" });
+    console.log(`Error: ${err}`);
+    return res.status(200).json({
+      success: false,
+      message: "Super Admin verification failed",
+      error: "server",
+      values: req.body,
+    });
   }
 };
 
@@ -115,7 +124,12 @@ export default async function handler(req, res) {
       return resend_validation_email(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false, message: "Wrong route" });
+      return res.status(200).json({
+        success: false,
+        message: "server ereror",
+        error: "server",
+        values: req.body,
+      });
     }
   }
 }

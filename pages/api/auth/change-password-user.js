@@ -8,28 +8,54 @@ dbConnect();
 
 export default async function verify(req, res) {
   if (req.method == "POST") {
-    const { password, password_confirmation } = req.body;
-    const { token, id } = req.query;
-    const user = await User.findOne({ _id: ObjectId(id) });
-    const secret = process.env.JWT_SECRET_KEY + user.password;
-    const payload = await jwt.verify(token, secret);
-    if (!user || !payload || id != user.id)
-      return res
-        .status(200)
-        .json({ success: false, message: "Verification does not exist" });
-    if (password.length <= 5)
+    try {
+      const { password, password_confirmation } = req.body;
+      const { token, id } = req.query;
+      const user = await User.findOne({ _id: ObjectId(id) });
+      const secret = process.env.JWT_SECRET_KEY + user.password;
+      const payload = await jwt.verify(token, secret);
+      if (!user || !payload || id != user.id)
+        return res.status(200).json({
+          success: false,
+          message: "Verification does not exist",
+          error: "verification",
+          values: req.body,
+        });
+      if (password.length <= 5)
+        return res.status(200).json({
+          success: false,
+          message: "Password must be longer than 5 characters",
+          error: "password",
+          values: req.body,
+        });
+      if (password_confirmation != password)
+        return res.status(200).json({
+          success: false,
+          message: "Password does not match",
+          error: "password_confirmation",
+          values: req.body,
+        });
+      const salt = await bcrypt.genSalt(13);
+      const hashPassword = await bcrypt.hash(password, salt);
+      user.password = hashPassword;
+      user.save();
+      return res.status(200).json({
+        success: true,
+        message: "successfully changed password",
+        values: req.body,
+      });
+    } catch (err) {
+      console.log(`Error: ${err}`);
       return res.status(200).json({
         success: false,
-        message: "Password must be longer than 5 characters",
+        message: "server ereror",
+        error: "server",
+        values: req.body,
       });
-    if (password_confirmation != password)
-      return res
-        .status(200)
-        .json({ success: false, message: "Password does not match" });
-    const salt = await bcrypt.genSalt(13);
-    const hashPassword = await bcrypt.hash(password, salt);
-    user.password = hashPassword;
-    user.save();
-    return res.status(200).json({ success: true });
+    }
   }
+
+  return res
+    .status(200)
+    .json({ success: false, message: "server ereror", error: "server" });
 }

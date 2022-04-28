@@ -16,14 +16,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const validate_token = async (req, res) => {
   try {
     const { token } = req.query;
@@ -36,6 +28,7 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Verification link does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If admin's email verified
@@ -44,14 +37,23 @@ const validate_token = async (req, res) => {
         success: false,
         message: "Email has already been",
         error: "email verification",
+        values: req.body,
       });
 
     findAdmin.email_verified = true;
     findAdmin.email_token = "";
     findAdmin.save();
-    res.status(200).json({ sucess: true });
+    return res.status(200).json({
+      success: true,
+      message: "Admin email verified",
+      values: req.body,
+    });
   } catch (err) {
-    res.status(200).json({ sucess: false, message: "Verification failed" });
+    return res.status(200).json({
+      success: false,
+      message: "Verification failed",
+      values: req.body,
+    });
   }
 };
 
@@ -68,6 +70,7 @@ const resend_validation_email = async (req, res) => {
         success: false,
         message: "Email does not exist",
         error: "email",
+        values: req.body,
       });
 
     // If admin's email verified
@@ -75,16 +78,17 @@ const resend_validation_email = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Email has already been verified",
-        error: "email verification",
+        error: "verification",
+        values: req.body,
       });
 
     // Generate email template for admin email
     const mailOptions = {
-      from: `verify your email from <${process.env.NODEMAILER_SERVICE}>`,
+      from: `Admin - Verify your email from <${process.env.NODEMAILER_SERVICE}>`,
       to: findAdmin.email,
-      subject: "Astig verification -verify your email",
+      subject: "Astig Verification -verify your email",
       html: transTemplate({
-        role: "Admin",
+        role: "Astig Admin",
         message:
           "Thank you for registering on our site. Verify email below. \n Reminder: The main admin of this system must verify your email before you can access the sites admin page",
         name: findAdmin.full_name,
@@ -98,11 +102,19 @@ const resend_validation_email = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptions, (err, info) => {});
 
-    res.status(200).json({ sucess: true });
+    return res.status(200).json({
+      success: true,
+      message: "super admin verified the admin",
+      values: req.body,
+    });
   } catch (err) {
-    res
-      .status(200)
-      .json({ sucess: false, message: "Admin verification failed" });
+    console.log(`Error: ${err}`);
+    return res.status(200).json({
+      success: false,
+      message: "Admin verification failed",
+      error: "server",
+      values: req.body,
+    });
   }
 };
 
@@ -115,7 +127,9 @@ export default async function handler(req, res) {
       return resend_validation_email(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false, message: "Wrong route" });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

@@ -14,13 +14,13 @@ const login = async (req, res) => {
     // Find email
     const { email, password } = req.body;
     const findUser = await User.findOne({ email: email });
-
     // User email not found
     if (!findUser)
       return res.status(200).json({
         success: false,
         message: "Email does not exist",
         error: "email",
+        values: req.body,
       });
 
     // compare password to inputed password
@@ -32,6 +32,7 @@ const login = async (req, res) => {
         success: false,
         message: "Incorrect password",
         error: "password",
+        values: req.body,
       });
 
     // If User's email is not verified
@@ -39,7 +40,8 @@ const login = async (req, res) => {
       return res.status(200).json({
         success: false,
         message: "Please view your inbox for email confirmation",
-        error: "email verification",
+        error: "verification",
+        values: req.body,
       });
 
     const token = createToken(findUser.id);
@@ -50,10 +52,21 @@ const login = async (req, res) => {
     findUser.login_count = findUser.login_count + 1;
     findUser.save();
 
-    return res.status(200).json({ success: true, message: [] });
+    return res.status(200).json({
+      success: true,
+      message: "successfully logged in",
+      values: req.body,
+    });
   } catch (err) {
     console.log(`Error: ${err}`);
-    return res.status(401).json({ success: false, message: [] });
+    return res
+      .status(200)
+      .json({
+        success: false,
+        message: "server ereror",
+        error: "server",
+        values: req.body,
+      });
   }
 };
 
@@ -63,7 +76,9 @@ export default async function handler(req, res) {
       return login(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false, message: [] });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }

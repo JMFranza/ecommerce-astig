@@ -1,13 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
-
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+import HomeNavigation from "../components/HomeNavigation";
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <h1 className="text-3xl font-bold underline text-blue-700">
-        Hello world!
-      </h1>
+    <div>
+      <HomeNavigation />
     </div>
   );
 }

@@ -16,14 +16,6 @@ const {
   createToken,
 } = require("../../../config/helper");
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "255mb",
-    },
-  },
-};
-
 const register = async (req, res) => {
   try {
     const {
@@ -38,10 +30,69 @@ const register = async (req, res) => {
       country,
     } = req.body;
 
+    if (!email) {
+      return res.status(200).json({
+        success: false,
+        message: "Email is empty!",
+        error: "email",
+        values: req.body,
+      });
+    }
+    if (!password) {
+      return res.status(200).json({
+        success: false,
+        message: "Password is empty!",
+        error: "password",
+        values: req.body,
+      });
+    }
+    if (!password_confirmation) {
+      return res.status(200).json({
+        success: false,
+        message: "Password confirmation is empty!",
+        error: "password_confirmation",
+        values: req.body,
+      });
+    }
     if (password_confirmation != password) {
       return res.status(200).json({
         success: false,
-        message: ["Confirm password is not the same as password"],
+        message: "Confirm password is not the same as password",
+        error: "password_confirmation",
+        values: req.body,
+      });
+    }
+    if (!full_name) {
+      return res.status(200).json({
+        success: false,
+        message: "Full name is required",
+        error: "full_name",
+        values: req.body,
+      });
+    }
+    if (!postal_code) {
+      return res.status(200).json({
+        success: false,
+        message: "Postal Code is required",
+        error: "postal_code",
+        values: req.body,
+      });
+    }
+    if (!country) {
+      return res.status(200).json({
+        success: false,
+        message: "Country is required",
+        error: "country",
+        values: req.body,
+      });
+    }
+
+    if (!city) {
+      return res.status(200).json({
+        success: false,
+        message: "City name is required",
+        error: "city",
+        values: req.body,
       });
     }
 
@@ -69,11 +120,11 @@ const register = async (req, res) => {
 
     // Generate email template
     const mailOptions = {
-      from: `verify your email from <${process.env.NODEMAILER_SERVICE}>`,
+      from: `User - verify your email from <${process.env.NODEMAILER_SERVICE}>`,
       to: email,
-      subject: "Astig verification -verify your email",
+      subject: "Astig User verification -verify your email",
       html: transTemplate({
-        role: "User",
+        role: "Astig User",
         message:
           "Thank you for registering on our site. You can order astig merchandise now if you verify your account by clicking the button below",
         name: full_name,
@@ -94,18 +145,29 @@ const register = async (req, res) => {
         console.log("Verification has been sent to your email");
       }
     });
-    return res.status(200).json({ success: true, message: [] });
+    return res.status(200).json({
+      success: true,
+      message: "Successfully created an account",
+      values: req.body,
+    });
   } catch (err) {
+    console.log(`Error: ${err}`);
     const errors = err.errors;
     for (const key in errors)
       return res.status(200).send({
         succes: false,
         message: errors[key].message,
         error: errors[key].path,
+        values: req.body,
       });
     return res
       .status(200)
-      .send({ succes: false, message: "Email already exist!", error: "email" });
+      .send({
+        succes: false,
+        message: "Email already exist!",
+        error: "email",
+        values: req.body,
+      });
   }
 };
 
@@ -115,7 +177,9 @@ export default async function handler(req, res) {
       return register(req, res);
     }
     default: {
-      return res.status(400).json({ sucess: false, message: [] });
+      return res
+        .status(200)
+        .json({ success: false, message: "server ereror", error: "server" });
     }
   }
 }
