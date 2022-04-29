@@ -24,7 +24,7 @@ export async function middleware(req, event) {
 
   // If admin is not logged in or invalid token
   if (validateToken.role == "admin")
-    return NextResponse.rewrite(`${origin}/views/admin`);
+    return NextResponse.redirect(`${origin}/views/admin`);
 
   return NextResponse.next();
 }

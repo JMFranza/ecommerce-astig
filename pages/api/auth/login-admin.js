@@ -72,7 +72,7 @@ const login = async (req, res) => {
     console.log(`Error: ${err}`);
     return res.status(200).json({
       success: false,
-      message: "server ereror",
+      message: "server error",
       error: "server",
       values: req.body,
     });
@@ -87,7 +87,7 @@ export default async function handler(req, res) {
     default: {
       return res
         .status(404)
-        .json({ success: false, message: "server ereror", error: "server" });
+        .json({ success: false, message: "server error", error: "server" });
     }
   }
 }

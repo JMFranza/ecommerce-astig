@@ -9,19 +9,17 @@ export default async function handler(req, res) {
     case "GET": {
       const token = req.query.token;
       const verify = jwt.verify(token, process.env.JWT_SECRET_KEY);
-      return res
-        .status(200)
-        .json({
-          success: false,
-          data: verify,
-          message: "token",
-          error: "server",
-        });
+      return res.status(200).json({
+        success: false,
+        data: verify,
+        message: "token",
+        error: "server",
+      });
     }
     default: {
       return res
         .status(200)
-        .json({ success: false, message: "server ereror", error: "server" });
+        .json({ success: false, message: "server error", error: "server" });
     }
   }
 }

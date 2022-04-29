@@ -14,7 +14,7 @@ const logout = async (req, res) => {
     console.log(`Error: ${err}`);
     return res.status(200).json({
       success: false,
-      message: "server ereror logout failed",
+      message: "server error logout failed",
       error: "server",
     });
   }
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     default: {
       return res.status(200).json({
         success: false,
-        message: "server ereror",
+        message: "server error",
         error: "server",
         values: req.body,
       });

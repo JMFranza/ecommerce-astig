@@ -43,7 +43,7 @@ export default async function handler(req, res) {
       // If admin doesn't exist. Save it to database
       // With generated unique random password
       if (!admin) {
-        const password = uuidv4().substring(0, 5);
+        const password = uuidv4().substring(0, 10);
         const salt = await bcrypt.genSalt(13);
         const hashPassword = await bcrypt.hash(password, salt);
         const gmailAdmin = {
@@ -142,7 +142,7 @@ export default async function handler(req, res) {
     default: {
       return res
         .status(404)
-        .json({ success: false, message: "server ereror", error: "server" });
+        .json({ success: false, message: "server error", error: "server" });
     }
   }
 }

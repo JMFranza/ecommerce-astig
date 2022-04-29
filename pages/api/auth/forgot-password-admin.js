@@ -16,7 +16,7 @@ export default async function verify(req, res) {
   if (req.method != "POST")
     return res
       .status(200)
-      .json({ success: false, message: "server ereror", error: "server" });
+      .json({ success: false, message: "server error", error: "server" });
 
   try {
     const { email } = req.body;
@@ -69,6 +69,6 @@ export default async function verify(req, res) {
     console.log(`Error: ${err}`);
     return res
       .status(200)
-      .json({ success: false, message: "server ereror", error: "server" });
+      .json({ success: false, message: "server error", error: "server" });
   }
 }

@@ -46,18 +46,16 @@ export default async function verify(req, res) {
       });
     } catch (err) {
       console.log(`Error: ${err}`);
-      return res
-        .status(200)
-        .json({
-          success: false,
-          message: "server ereror",
-          error: "server",
-          values: req.body,
-        });
+      return res.status(200).json({
+        success: false,
+        message: "server error",
+        error: "server",
+        values: req.body,
+      });
     }
   }
 
   return res
     .status(200)
-    .json({ success: false, message: "server ereror", error: "server" });
+    .json({ success: false, message: "server error", error: "server" });
 }

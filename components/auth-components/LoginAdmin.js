@@ -43,7 +43,6 @@ const LoginAdmin = () => {
   const submit_verifiction = async () => {
     const email = adminRegisterValues.email;
     const data = await forms.admin_verification(email);
-    console.log(data);
     const time = new Date();
     time.setSeconds(time.getSeconds() + 15);
     restart(time);
@@ -58,7 +57,6 @@ const LoginAdmin = () => {
       setUserForm(data);
       toast.error(data.message);
       if (data.error === "verification") {
-        console.log(data.values);
         setAdminRegisterValues(data.values);
         setIsLoggedIn(true);
       }
