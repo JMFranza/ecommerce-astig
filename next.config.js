@@ -24,5 +24,7 @@ module.exports = {
     NODEMAILER_EMAIL: "no.reply.astig03@gmail.com",
     NODEMAILER_PASSWORD: '4-DKHydYFhmX;}"',
     NODEMAILER_SUPER_ADMIN: "astig03.Aadmiin@gmail.com",
+    REACT_APP_GOOGLE_CLIENT_ID:
+      "579648792824-pcldik840ioip811vurbj78udoccuk78.apps.googleusercontent.com",
   },
 };

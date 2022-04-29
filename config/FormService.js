@@ -74,6 +74,18 @@ const get_admin_account = async (token) => {
     .then((response) => response.data);
 };
 
+const google_login_user = async (googleData) => {
+  return await axios
+    .post(`${url}/api/auth/google-login-user`, googleData)
+    .then((response) => response.data);
+};
+
+const google_login_admin = async (googleData) => {
+  return await axios
+    .post(`${url}/api/auth/google-login-admin`, googleData)
+    .then((response) => response.data);
+};
+
 module.exports = {
   user_login,
   admin_login,
@@ -86,4 +98,6 @@ module.exports = {
   admin_account_verification,
   super_admin_account_verification,
   get_admin_account,
+  google_login_user,
+  google_login_admin,
 };

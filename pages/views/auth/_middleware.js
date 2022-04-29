@@ -1,7 +1,7 @@
 import { NextResponse, NextFetchEvent, NextRequest } from "next/server";
+import { useEffect } from "react";
 import axios from "axios";
 import fetchAdapter from "@vespaiach/axios-fetch-adapter";
-
 export async function middleware(req, event) {
   const token = req.cookies["access-token"];
   const { url, origin } = req.nextUrl.clone();

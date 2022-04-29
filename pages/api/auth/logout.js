@@ -6,6 +6,7 @@ const logout = async (req, res) => {
   try {
     const cookies = new Cookies(req, res);
     cookies.set("access-token", "");
+    localStorage.removeItem("loginData");
     return res
       .status(200)
       .json({ success: true, message: "logout successfully" });

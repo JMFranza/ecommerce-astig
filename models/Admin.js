@@ -30,15 +30,12 @@ const AdminSchema = new mongoose.Schema({
   },
   city: {
     type: String,
-    required: [true, "City cannot be empty"],
   },
   postal_code: {
     type: String,
-    required: [true, "Postal code cannot be empty"],
   },
   country: {
     type: String,
-    required: [true, "Country code cannot be empty"],
   },
   email_token: {
     type: String,

@@ -7,22 +7,28 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Autocomplete from "@mui/material/Autocomplete";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
+import GoogleLogin from "react-google-login";
 
+import { TextField, Button, MenuItem, Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
+import { useTimer } from "react-timer-hook";
 
 import styledComponents from "styled-components";
 import forms from "../../config/FormService";
 import Copyright from "../public-components/Copyright";
+import AlertModal from "../public-components/AlertModal";
 
 // Icons
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import global_var from "../../config/global_var.json";
 
 toast.configure();
 export default function SignIn() {
@@ -38,9 +44,25 @@ export default function SignIn() {
       toast.error(data.message);
     } else {
       setUserForm({ message: "", error: "" });
-      toast.success("logging-in...");
       router.push("/views/user");
     }
+  };
+
+  const google_register_success = async (googleData) => {
+    const data = await forms.google_login_user(googleData);
+    if (!data.success) {
+      toast.error(
+        "Something wrong logging in with google. Please try again later"
+      );
+    } else {
+      router.push("/views/user");
+    }
+  };
+
+  const google_register_failure = (result) => {
+    toast.error(
+      "Something wrong logging in with google. Please try again later"
+    );
   };
 
   return (
@@ -110,14 +132,24 @@ export default function SignIn() {
               >
                 Sign In
               </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                sx={{ mb: 2 }}
-                startIcon={<GoogleIcon />}
-              >
-                Sign In With Google
-              </Button>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Sign In with Google"
+                onSuccess={google_register_success}
+                onFailure={google_register_failure}
+                cookiePolicy={"single_host_origin"}
+                render={(renderProps) => (
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    sx={{ mb: 2 }}
+                    startIcon={<GoogleIcon />}
+                    onClick={renderProps.onClick}
+                  >
+                    Sign Up With Google
+                  </Button>
+                )}
+              ></GoogleLogin>
               <Button
                 fullWidth
                 variant="outlined"

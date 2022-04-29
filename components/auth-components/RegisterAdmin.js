@@ -9,12 +9,14 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
+import GoogleLogin from "react-google-login";
 
+import { TextField, Button, MenuItem, Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 import { useTimer } from "react-timer-hook";
 
@@ -62,6 +64,24 @@ const RegisterAdmin = () => {
     const time = new Date();
     time.setSeconds(time.getSeconds() + 15);
     restart(time);
+  };
+
+  const google_register_success = async (googleData) => {
+    const data = await forms.google_login_admin(googleData);
+    if (!data.success) {
+      toast.error(
+        "Something wrong logging in with google. Please try again later"
+      );
+    } else {
+      setAdminForm({ message: "", error: "" });
+      router.push("/views/admin");
+    }
+  };
+
+  const google_register_failure = (result) => {
+    toast.error(
+      "Something wrong logging in with google. Please try again later"
+    );
   };
 
   return (
@@ -252,14 +272,24 @@ const RegisterAdmin = () => {
               >
                 Sign Up
               </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                sx={{ mb: 2 }}
-                startIcon={<GoogleIcon />}
-              >
-                Sign Up With Google
-              </Button>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Sign In with Google"
+                onSuccess={google_register_success}
+                onFailure={google_register_failure}
+                cookiePolicy={"single_host_origin"}
+                render={(renderProps) => (
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    sx={{ mb: 2 }}
+                    startIcon={<GoogleIcon />}
+                    onClick={renderProps.onClick}
+                  >
+                    Sign In With Google
+                  </Button>
+                )}
+              ></GoogleLogin>
               <Button
                 fullWidth
                 variant="outlined"
