@@ -33,6 +33,22 @@ toast.configure();
 const LoginAdmin = () => {
   const router = useRouter();
 
+  // For verification
+  const { seconds, restart } = useTimer({
+    expiryTimestamp: new Date().setSeconds(new Date().getSeconds() + 10),
+    onExpire: () => console.warn("onExpire called"),
+  });
+  const [adminRegisterValues, setAdminRegisterValues] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const submit_verifiction = async () => {
+    const email = adminRegisterValues.email;
+    const data = await forms.admin_verification(email);
+    console.log(data);
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 15);
+    restart(time);
+  };
+
   // Use in forms dynamically
   const [userForm, setUserForm] = useState({ message: "", error: "" });
   const handleSubmit = async (event) => {
@@ -41,12 +57,19 @@ const LoginAdmin = () => {
     if (!data.success) {
       setUserForm(data);
       toast.error(data.message);
+      if (data.error === "verification") {
+        console.log(data.values);
+        setAdminRegisterValues(data.values);
+        setIsLoggedIn(true);
+      }
     } else {
       setUserForm({ message: "", error: "" });
       toast.success("logging-in...");
       router.push("/views/admin");
     }
   };
+
+  // Google Authentication
   const google_register_success = async (googleData) => {
     const data = await forms.google_login_admin(googleData);
     if (!data.success) {
@@ -66,6 +89,23 @@ const LoginAdmin = () => {
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-12 lg:col-span-4 text-black font-sans font-bold bg-white min-h-screen pl-7">
+        <AlertModal
+          open={isLoggedIn}
+          setOpen={setIsLoggedIn}
+          title={"Email verification"}
+          message={
+            "Have you recieved your email? If not. Check your spam folder. Creating an Admin account will go through evaluation and can be verified within the working days.You can resend the verification by click the resend button for every 15 seconds. "
+          }
+          ok_button={`Resend verification ${seconds <= 0 ? "" : seconds}`}
+          ok_activate={() => {
+            submit_verifiction();
+          }}
+          ok_disable={seconds > 0}
+          cancel_button={"Cancel"}
+          cancel_activate={() => {
+            setIsLoggedIn(false);
+          }}
+        />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box

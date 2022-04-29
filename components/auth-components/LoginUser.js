@@ -33,6 +33,21 @@ toast.configure();
 export default function SignIn() {
   const router = useRouter();
 
+  // For verification
+  const { seconds, restart } = useTimer({
+    expiryTimestamp: new Date().setSeconds(new Date().getSeconds() + 10),
+    onExpire: () => console.warn("onExpire called"),
+  });
+  const [userRegisterValues, setUserRegisterValues] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const submit_verifiction = async () => {
+    const email = userRegisterValues.email;
+    const data = await forms.user_verification(email);
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 15);
+    restart(time);
+  };
+
   // Use in forms dynamically
   const [userForm, setUserForm] = useState({ message: "", error: "" });
   const handleSubmit = async (event) => {
@@ -41,12 +56,17 @@ export default function SignIn() {
     if (!data.success) {
       setUserForm(data);
       toast.error(data.message);
+      if (data.error === "verification") {
+        setUserRegisterValues(data.values);
+        setIsLoggedIn(true);
+      }
     } else {
       setUserForm({ message: "", error: "" });
       router.push("/views/user");
     }
   };
 
+  // Google authentication
   const google_register_success = async (googleData) => {
     const data = await forms.google_login_user(googleData);
     if (!data.success) {
@@ -67,6 +87,23 @@ export default function SignIn() {
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-12 lg:col-span-4 text-black font-sans font-bold bg-white min-h-screen pl-7">
+        <AlertModal
+          open={isLoggedIn}
+          setOpen={setIsLoggedIn}
+          title={"Email verification"}
+          message={
+            "Have you recieved your email? If not. Check your spam folder.You can resend the verification by click the resend button for every 15 seconds. "
+          }
+          ok_button={`Resend verification ${seconds <= 0 ? "" : seconds}`}
+          ok_activate={() => {
+            submit_verifiction();
+          }}
+          ok_disable={seconds > 0}
+          cancel_button={"Sign Up"}
+          cancel_activate={() => {
+            router.push("/views/auth/login-user");
+          }}
+        />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box

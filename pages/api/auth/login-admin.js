@@ -51,7 +51,7 @@ const login = async (req, res) => {
         success: false,
         message:
           "Please wait for the main admin to verify your email. It might take 3-5 working days",
-        error: "verification",
+        error: "admin_verification",
         values: req.body,
       });
 
