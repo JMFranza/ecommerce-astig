@@ -5,9 +5,14 @@ import Cookies from "cookies";
 import { v4 as uuidv4 } from "uuid";
 import { OAuth2Client } from "google-auth-library";
 
+const {
+  transporter,
+  transTemplatePassword,
+  getDate,
+} = require("../../../config/helper");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
 dbConnect();
@@ -36,7 +41,7 @@ export default async function handler(req, res) {
       // If user doesn't exist. Save it to database
       // With generated unique random password
       if (!user) {
-        const password = uuidv4();
+        const password = uuidv4().substring(0, 5);
         const salt = await bcrypt.genSalt(13);
         const hashPassword = await bcrypt.hash(password, salt);
         const gmailUser = {
@@ -51,6 +56,22 @@ export default async function handler(req, res) {
         };
         const newUser = await new User(gmailUser);
         await newUser.save();
+        // Generate email template for admin email
+        const mailOptions = {
+          from: `Astig03 User Generated Password<${process.env.NODEMAILER_SERVICE}>`,
+          to: email,
+          subject: "Astig03 User Generated Password",
+          html: transTemplatePassword({
+            role: "Admin",
+            message:
+              "This is your password. You can use this password to sign in with your account.",
+            name: name,
+            email: email,
+            getDate: getDate(),
+            header: `${password}`,
+          }),
+        };
+        await transporter.sendMail(mailOptions, (err, info) => {});
       }
 
       // Find user and set the token

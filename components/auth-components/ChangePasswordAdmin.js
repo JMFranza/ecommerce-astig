@@ -22,7 +22,6 @@ import Copyright from "../public-components/Copyright";
 
 // Icons
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 
 const ChangePasswordAdmin = () => {
   // Use in forms dynamically

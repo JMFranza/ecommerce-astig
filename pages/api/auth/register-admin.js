@@ -13,7 +13,6 @@ const {
   transporter,
   transTemplate,
   getDate,
-  createToken,
 } = require("../../../config/helper");
 
 const register = async (req, res) => {

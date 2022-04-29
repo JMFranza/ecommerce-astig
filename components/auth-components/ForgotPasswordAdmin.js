@@ -22,7 +22,6 @@ import Copyright from "../public-components/Copyright";
 
 // Icons
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 
 const ForgotPasswordAdmin = () => {
   const router = useRouter();
@@ -87,14 +86,7 @@ const ForgotPasswordAdmin = () => {
           >
             Sign In With Google
           </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            sx={{ mb: 2 }}
-            startIcon={<FacebookIcon />}
-          >
-            Sign In With Facebook
-          </Button>
+
           <Box
             container
             spacing={0}
