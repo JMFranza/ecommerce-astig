@@ -23,6 +23,7 @@ import Copyright from "../public-components/Copyright";
 // Icons
 import GoogleIcon from "@mui/icons-material/Google";
 
+toast.configure();
 const ForgotPasswordUser = () => {
   const router = useRouter();
 

@@ -50,9 +50,8 @@ const LoginAdmin = () => {
   const google_register_success = async (googleData) => {
     const data = await forms.google_login_admin(googleData);
     if (!data.success) {
-      toast.error(
-        "Something wrong logging in with google. Please try again later"
-      );
+      setUserForm(data);
+      toast.error(data.message);
     } else {
       router.push("/views/admin");
     }

@@ -23,6 +23,7 @@ import Copyright from "../public-components/Copyright";
 // Icons
 import GoogleIcon from "@mui/icons-material/Google";
 
+toast.configure();
 const ChangePasswordAdmin = () => {
   // Use in forms dynamically
   const [userForm, setUserForm] = useState({ message: "", error: "" });

@@ -145,7 +145,7 @@ const register = async (req, res) => {
       subject: "Astig Admin verification -verify staff",
       html: transTemplate({
         role: "Astig main admin",
-        message: `Verify Librarian Staff Named : ${full_name}. With an email of Of ${email} \n location: ${postal_code} ${country}`,
+        message: `Verify Astig03 Staff Named : ${full_name}. With an email of Of ${email} \n location: ${postal_code} ${country}`,
         name: full_name,
         email: email,
         getDate: getDate(),

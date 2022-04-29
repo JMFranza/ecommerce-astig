@@ -29,6 +29,7 @@ import AlertModal from "../public-components/AlertModal";
 import GoogleIcon from "@mui/icons-material/Google";
 import global_var from "../../config/global_var.json";
 
+toast.configure();
 const RegisterUser = () => {
   const router = useRouter();
 

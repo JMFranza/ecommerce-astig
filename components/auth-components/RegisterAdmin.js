@@ -29,6 +29,7 @@ import AlertModal from "../public-components/AlertModal";
 import GoogleIcon from "@mui/icons-material/Google";
 import global_var from "../../config/global_var.json";
 
+toast.configure();
 const RegisterAdmin = () => {
   const router = useRouter();
 
@@ -68,11 +69,9 @@ const RegisterAdmin = () => {
   const google_register_success = async (googleData) => {
     const data = await forms.google_login_admin(googleData);
     if (!data.success) {
-      toast.error(
-        "Something wrong logging in with google. Please try again later"
-      );
+      setAdminForm(data);
+      toast.error(data.message);
     } else {
-      setAdminForm({ message: "", error: "" });
       router.push("/views/admin");
     }
   };
