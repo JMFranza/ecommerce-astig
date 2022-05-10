@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import forms from "../../config/FormService";
 
+toast.configure();
 const VerificationAdmin = () => {
   const router = useRouter();
   const [verificationFinish, setVerficiationFinish] = useState(false);

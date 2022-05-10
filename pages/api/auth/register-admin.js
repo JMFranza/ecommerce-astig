@@ -13,7 +13,6 @@ const {
   transporter,
   transTemplate,
   getDate,
-  createToken,
 } = require("../../../config/helper");
 
 const register = async (req, res) => {
@@ -146,7 +145,7 @@ const register = async (req, res) => {
       subject: "Astig Admin verification -verify staff",
       html: transTemplate({
         role: "Astig main admin",
-        message: `Verify Librarian Staff Named : ${full_name}. With an email of Of ${email} \n location: ${postal_code} ${country}`,
+        message: `Verify Astig03 Staff Named : ${full_name}. With an email of Of ${email} \n location: ${postal_code} ${country}`,
         name: full_name,
         email: email,
         getDate: getDate(),
@@ -190,7 +189,7 @@ export default async function handler(req, res) {
     default: {
       return res
         .status(200)
-        .json({ success: false, message: "server ereror", error: "server" });
+        .json({ success: false, message: "server error", error: "server" });
     }
   }
 }

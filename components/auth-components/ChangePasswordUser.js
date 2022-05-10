@@ -7,32 +7,60 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Autocomplete from "@mui/material/Autocomplete";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
+import GoogleLogin from "react-google-login";
 
+import { TextField, Button, MenuItem, Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
+import { useTimer } from "react-timer-hook";
 
 import styledComponents from "styled-components";
 import forms from "../../config/FormService";
 import Copyright from "../public-components/Copyright";
+import AlertModal from "../public-components/AlertModal";
 
 // Icons
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import global_var from "../../config/global_var.json";
 
+toast.configure();
 const ChangePasswordUser = () => {
+  const router = useRouter();
+  const [isChanged, setIsChanged] = useState(false);
+
   // Use in forms dynamically
   const [userForm, setUserForm] = useState({ message: "", error: "" });
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("change password user");
+    const data = await forms.user_change_password({ event, ...router.query });
+    if (!data.success) {
+      setUserForm(data);
+      toast.error(data.message);
+    } else {
+      setUserForm({ message: "", error: "" });
+      setIsChanged(true);
+    }
   };
   return (
     <Container component="main" maxWidth="xs">
+      <AlertModal
+        open={isChanged}
+        setOpen={setIsChanged}
+        title={"Password has been change"}
+        message={
+          "Your account password has been changed! you can now sign up by click the button below."
+        }
+        ok_button={`Sign in now`}
+        ok_activate={() => {
+          router.push("/views/auth/login-user");
+        }}
+      />
       <CssBaseline />
       <Box
         sx={{
@@ -46,7 +74,7 @@ const ChangePasswordUser = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Admin Forgot Password
+          User Forgot Password
         </Typography>
         <Box
           component="form"

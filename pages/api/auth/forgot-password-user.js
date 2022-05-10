@@ -16,7 +16,7 @@ export default async function verify(req, res) {
   if (req.method != "POST")
     return res
       .status(200)
-      .json({ success: false, message: "server ereror", error: "server" });
+      .json({ success: false, message: "server error", error: "server" });
   try {
     const { email } = req.body;
     const findUser = await User.findOne({ email });
@@ -67,13 +67,11 @@ export default async function verify(req, res) {
       .json({ success: true, message: "Check your inbox", values: req.body });
   } catch (err) {
     console.log(`Error: ${err}`);
-    return res
-      .status(200)
-      .json({
-        success: false,
-        message: "server ereror",
-        error: "server",
-        values: req.body,
-      });
+    return res.status(200).json({
+      success: false,
+      message: "server error",
+      error: "server",
+      values: req.body,
+    });
   }
 }

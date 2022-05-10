@@ -7,26 +7,46 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Autocomplete from "@mui/material/Autocomplete";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
+import GoogleLogin from "react-google-login";
 
+import { TextField, Button, MenuItem, Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
+import { useTimer } from "react-timer-hook";
 
 import styledComponents from "styled-components";
 import forms from "../../config/FormService";
 import Copyright from "../public-components/Copyright";
+import AlertModal from "../public-components/AlertModal";
 
 // Icons
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import global_var from "../../config/global_var.json";
 
 toast.configure();
 export default function SignIn() {
   const router = useRouter();
+
+  // For verification
+  const { seconds, restart } = useTimer({
+    expiryTimestamp: new Date().setSeconds(new Date().getSeconds() + 10),
+    onExpire: () => console.warn("onExpire called"),
+  });
+  const [userRegisterValues, setUserRegisterValues] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const submit_verifiction = async () => {
+    const email = userRegisterValues.email;
+    const data = await forms.user_verification(email);
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 15);
+    restart(time);
+  };
 
   // Use in forms dynamically
   const [userForm, setUserForm] = useState({ message: "", error: "" });
@@ -36,16 +56,54 @@ export default function SignIn() {
     if (!data.success) {
       setUserForm(data);
       toast.error(data.message);
+      if (data.error === "verification") {
+        setUserRegisterValues(data.values);
+        setIsLoggedIn(true);
+      }
     } else {
       setUserForm({ message: "", error: "" });
-      toast.success("logging-in...");
       router.push("/views/user");
     }
+  };
+
+  // Google authentication
+  const google_register_success = async (googleData) => {
+    const data = await forms.google_login_user(googleData);
+    if (!data.success) {
+      toast.error(
+        "Something wrong logging in with google. Please try again later"
+      );
+    } else {
+      router.push("/views/user");
+    }
+  };
+
+  const google_register_failure = (result) => {
+    toast.error(
+      "Something wrong logging in with google. Please try again later"
+    );
   };
 
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-12 lg:col-span-4 text-black font-sans font-bold bg-white min-h-screen pl-7">
+        <AlertModal
+          open={isLoggedIn}
+          setOpen={setIsLoggedIn}
+          title={"Email verification"}
+          message={
+            "Have you recieved your email? If not. Check your spam folder.You can resend the verification by click the resend button for every 15 seconds. "
+          }
+          ok_button={`Resend verification ${seconds <= 0 ? "" : seconds}`}
+          ok_activate={() => {
+            submit_verifiction();
+          }}
+          ok_disable={seconds > 0}
+          cancel_button={"Sign Up"}
+          cancel_activate={() => {
+            router.push("/views/auth/login-user");
+          }}
+        />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -110,22 +168,24 @@ export default function SignIn() {
               >
                 Sign In
               </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                sx={{ mb: 2 }}
-                startIcon={<GoogleIcon />}
-              >
-                Sign In With Google
-              </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                sx={{ mb: 2 }}
-                startIcon={<FacebookIcon />}
-              >
-                Sign In With Facebook
-              </Button>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Sign In with Google"
+                onSuccess={google_register_success}
+                onFailure={google_register_failure}
+                cookiePolicy={"single_host_origin"}
+                render={(renderProps) => (
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    sx={{ mb: 2 }}
+                    startIcon={<GoogleIcon />}
+                    onClick={renderProps.onClick}
+                  >
+                    Sign Up With Google
+                  </Button>
+                )}
+              ></GoogleLogin>
               <Grid container>
                 <Grid item xs>
                   <Link href="/views/auth/forgot-password-user" variant="body2">

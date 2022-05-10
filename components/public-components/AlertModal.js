@@ -109,15 +109,17 @@ const AlertModal = ({
             >
               {ok_button}
             </Button>
-            <Button
-              variant="outlined"
-              sx={{ m: 1 }}
-              color="error"
-              onClick={cancel_click}
-              disabled={cancel_disable}
-            >
-              {cancel_button}
-            </Button>
+            {cancel_button && (
+              <Button
+                variant="outlined"
+                sx={{ m: 1 }}
+                color="error"
+                onClick={cancel_click}
+                disabled={cancel_disable}
+              >
+                {cancel_button}
+              </Button>
+            )}
           </Toolbar>
         </Box>
       </Modal>

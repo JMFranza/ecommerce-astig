@@ -10,6 +10,7 @@ const VerificationAdminSuper = ({ profile }) => {
     if (Object.keys(profile).length == 0) return;
     const token = profile.values.token;
     const data = await forms.super_admin_account_verification(token);
+    console.log(data);
     if (!data.success) {
       toast.error(data.message);
     } else {

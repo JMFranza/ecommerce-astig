@@ -16,6 +16,18 @@ const transTemplate = (props) => {
   return template(getFileContent(), props);
 };
 
+const transTemplatePassword = (props) => {
+  return template(getFileContentPassword(), props);
+};
+
+const getFileContentPassword = () => {
+  let contents = fs.readFileSync(
+    `components/EmailTemplatePassword.html`,
+    "utf-8"
+  );
+  return contents;
+};
+
 const getFileContent = () => {
   let contents = fs.readFileSync(`components/EmailTemplate.html`, "utf-8");
   return contents;
@@ -42,6 +54,7 @@ const createToken = (props) => {
 module.exports = {
   transporter,
   transTemplate,
+  transTemplatePassword,
   getDate,
   createToken,
 };

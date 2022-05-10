@@ -160,14 +160,12 @@ const register = async (req, res) => {
         error: errors[key].path,
         values: req.body,
       });
-    return res
-      .status(200)
-      .send({
-        succes: false,
-        message: "Email already exist!",
-        error: "email",
-        values: req.body,
-      });
+    return res.status(200).send({
+      succes: false,
+      message: "Email already exist!",
+      error: "email",
+      values: req.body,
+    });
   }
 };
 
@@ -179,7 +177,7 @@ export default async function handler(req, res) {
     default: {
       return res
         .status(200)
-        .json({ success: false, message: "server ereror", error: "server" });
+        .json({ success: false, message: "server error", error: "server" });
     }
   }
 }

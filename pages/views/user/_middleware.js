@@ -7,7 +7,7 @@ export async function middleware(req, event) {
   const { url, origin } = req.nextUrl.clone();
 
   // If no token exist
-  if (!token) return NextResponse.rewrite(`${origin}/views/auth/login-user`);
+  if (!token) return NextResponse.redirect(`${origin}/views/auth/login-user`);
 
   // Requesting token validation
   const axiosInstance = axios.create({
@@ -20,11 +20,11 @@ export async function middleware(req, event) {
 
   // If admin is logged in
   if (validateToken.role == "admin")
-    return NextResponse.rewrite(`${origin}/views/admin`);
+    return NextResponse.redirect(`${origin}/views/admin`);
 
   // If admin is not logged in or invalid token
   if (validateToken.role != "user" || !validateToken)
-    return NextResponse.rewrite(`${origin}/views/auth/user-admin`);
+    return NextResponse.redirect(`${origin}/views/auth/user-admin`);
 
   NextResponse.next();
 }

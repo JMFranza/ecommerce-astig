@@ -12,8 +12,6 @@ import styledComponents from "styled-components";
 import HomeNavigation from "../../../components/HomeNavigation";
 import ChangePasswordAdmin from "../../../components/auth-components/ChangePasswordAdmin";
 toast.configure();
-
-toast.configure();
 const change_password_admin = () => {
   return (
     <div>

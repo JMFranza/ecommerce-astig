@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   if (req.method != "POST")
     return res
       .status(404)
-      .json({ success: false, message: "server ereror", error: "server" });
+      .json({ success: false, message: "server error", error: "server" });
   const { token } = req.body;
 
   const findAdmin = await Admin.findOne(
@@ -23,12 +23,10 @@ export default async function handler(req, res) {
       country: 1,
     }
   );
-  return res
-    .status(200)
-    .json({
-      success: true,
-      message: "Success",
-      data: findAdmin,
-      values: req.body,
-    });
+  return res.status(200).json({
+    success: true,
+    message: "Success",
+    data: findAdmin,
+    values: req.body,
+  });
 }
